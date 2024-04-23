@@ -1,35 +1,30 @@
 const express = require('express')
+const {engine} = require('express-handlebars')
+
 const app = express()
-const PORT = 3333
+const routes = require('./routes')
 
-const { Client } = require('pg')
-const client = new Client({
-  host: 'localhost',
-  user: 'postgres',
-  password: 'clim6er',
-  database: 'student_course_db'
-})
+const client = require('./db/client')
 
-app.use(exprexx.json())
+const PORT = process.env.PORT || 3333
 
-// Route to get all courses
-app.get('/api/courses', async (req, res) => {
-  const { rows } = await client.query('SELECT * FROM courses')
+// Create a GET route for every file in public
+app.use(express.static('public'))
 
-  res.json(rows)
-})
+// allow url encoded data
+app.use(express.urlencoded({ extended: false }))
 
-app.post('/api/courses', async (req, res) => {
-  const courseData = request.body
-  await client.query('INSERT INTO courses (name, type) VALUES ($1, $2', [courseData.name, courseData.type])
+// set up handlebars
+app.engine('handlebars', engine())
+app.set('view engine', 'handlebars')
 
-  res.json({
-    message: 'Course added seccessfully!'
-  })
-})
+// Load all Routes
+app.use('/', routes)
 
+// Contact db
 client.connect()
-  .then(() => {
-    app.listen(PORT, () => console.log('Server started on port', PORT))
-
+  .then(()=>{
+    // Start listening to start server
+    app.listen(PORT, () => console.log('Server listening on port', PORT))
   })
+

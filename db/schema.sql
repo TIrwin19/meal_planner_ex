@@ -1,38 +1,24 @@
 \c postgres;
 
-DROP DATABASE IF EXISTS student_course_db;
-CREATE DATABASE student_course_db;
+DROP DATABASE meal_planner_db;
+CREATE DATABASE meal_planner_db;
 
-\c student_course_db;
+\c meal_planner_db;
 
-CREATE TABLE courses (
-  id SERIAL PRIMARY KEY,
-  name VARCHAR(250) NOT NULL,
-  type VARCHAR(250) NOT NULL
+CREATE TABLE users (
+  id SERIAL PRIMARY kEY,
+  username VARCHAR(250) NOT NULL UNIQUE,
+  password VARCHAR(250) NOT NULL
 );
 
-CREATE TABLE students (
-  id SERIAL PRIMARY KEY,
-  first_name VARCHAR(250) NOT NULL,
-  last_name VARCHAR(250) NOT NULL,
-  email VARCHAR(250) NOT NULL,
-  password VARCHAR(250) NOT NULL,
-  course_id INT,
-  FOREIGN KEY (course_id) REFERENCES courses(id)
+CREATE TABLE meals(
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(250) NOT NULL,
+    serving_size INT NOT NULL,
+    type VARCHAR(100) NOT NULL,
+    day_of_week VARCHAR(100) NOT NULL,
+    user_id INT NOT NULL,
+    FOREIGN KEY (user_id)
+      REFERENCES users(id)
+      ON DELETE CASCADE
 );
-
--- CREATE TABLE prices (
---   course_name VARCHAR(250) NOT NULL,
---   course_price INT NOT NULL
--- );
-
-
-
-
--- DROP TABLE users;
-
--- CREATE TABLE users (
---   id SERIAL PRIMARY KEY,
---   email VARCHAR(250) NOT NULL,
---   password VARCHAR(250) NOT NULL
--- );
