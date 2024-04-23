@@ -22,7 +22,7 @@ app.set('view engine', 'handlebars')
 app.use('/', routes)
 
 // Contact db
-client.connect()
+client.sync()
   .then(()=>{
     // Start listening to start server
     app.listen(PORT, () => console.log('Server listening on port', PORT))
